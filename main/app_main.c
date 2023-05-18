@@ -6,23 +6,20 @@
 #include "Arduino.h"
 
 #include "storage.c"
-#include "button.c"
 #include "router.c"
-#include "rtc.c"
-#include "webserver.c"
+#include "led.c"
+#include "uart.c"
 
-static const char *TAG_MAIN = "pcbcrew-router-main";
-
+static const char *TAG_MAIN = "Tower PANDAHAT";
 
 void app_main(void)
 {
     esp_log_level_set("*", ESP_LOG_INFO);
 
     setup_storage();
-    setup_rtc();
-    setup_button();
     setup_router();
-    setup_webserver();
+    setup_led();
+    setup_uart();
 
     initArduino();
     pinMode(9, OUTPUT);

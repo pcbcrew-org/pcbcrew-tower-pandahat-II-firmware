@@ -148,6 +148,13 @@ CONFIG_PARTITION_TABLE_MD5=y
 #
 
 #
+# Network Distribution
+#
+# CONFIG_BRIDGE_USE_WEB_SERVER is not set
+# CONFIG_BRIDGE_USE_WIFI_PROVISIONING_OVER_BLE is not set
+# end of Network Distribution
+
+#
 # Button Configuration
 #
 CONFIG_GPIO_BUTTON_SW1=38
@@ -1504,26 +1511,18 @@ CONFIG_BRIDGE_ENABLE=y
 #
 # The interface used to connect to the external network
 #
-# CONFIG_BRIDGE_EXTERNAL_NETIF_STATION is not set
+CONFIG_BRIDGE_EXTERNAL_NETIF_STATION=y
+# CONFIG_BRIDGE_STATION_CANCEL_AUTO_CONNECT_WHEN_DISCONNECTED is not set
 # CONFIG_BRIDGE_EXTERNAL_NETIF_MODEM is not set
-CONFIG_BRIDGE_EXTERNAL_NETIF_ETHERNET=y
+# CONFIG_BRIDGE_EXTERNAL_NETIF_ETHERNET is not set
 # end of The interface used to connect to the external network
 
 #
 # The interface used to provide network data forwarding for other devices
 #
-CONFIG_BRIDGE_DATA_FORWARDING_NETIF_SOFTAP=y
-
-#
-# SoftAP Config
-#
-CONFIG_BRIDGE_SOFTAP_SSID="ESP_Bridge"
-CONFIG_BRIDGE_SOFTAP_PASSWORD="12345678"
-CONFIG_BRIDGE_SOFTAP_SSID_END_WITH_THE_MAC=y
-CONFIG_BRIDGE_SOFTAP_MAX_CONNECT_NUMBER=6
-# end of SoftAP Config
-
+# CONFIG_BRIDGE_DATA_FORWARDING_NETIF_SOFTAP is not set
 # CONFIG_BRIDGE_DATA_FORWARDING_NETIF_USB is not set
+CONFIG_BRIDGE_DATA_FORWARDING_NETIF_ETHERNET=y
 # CONFIG_BRIDGE_DATA_FORWARDING_NETIF_SPI is not set
 # end of The interface used to provide network data forwarding for other devices
 
