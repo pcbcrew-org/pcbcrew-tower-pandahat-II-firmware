@@ -1,3 +1,6 @@
+#include "freertos/FreeRTOS.h"
+#include "driver/gpio.h"
+
 #define EXT_LED1 16
 #define EXT_LED2 17
 

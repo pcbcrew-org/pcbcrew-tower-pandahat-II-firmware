@@ -1,3 +1,4 @@
+#include "esp_log.h"
 #include "driver/uart.h"
 
 #define UART_LOG_TICK 200
@@ -7,7 +8,7 @@
 #define GPS_RTS 6 // unused pin
 #define GPS_CTS 7 // unused pin
 #define GPS_UART UART_NUM_1
-#define GPS_LOG_TICK 200
+#define GPS_LOG_TICK 33
 #define GPS_LOG_STACK_SIZE 2048
 
 
@@ -39,7 +40,7 @@ void get_uart_data(int dev_uart, uint8_t *buffer, int len){
 void send_uart_data(int dev_uart, char* str_data) {
     uart_write_bytes(dev_uart, (const char*)str_data, strlen(str_data));
     printf("  To UART >>");
-    log_text(str_data);
+    log_text(str_data, strlen(str_data));
     printf("\n");
 }
 
@@ -50,8 +51,8 @@ void log_uart_data(int dev_uart) {
     buffered_data_len = get_buffered_data_len(dev_uart);
     if (buffered_data_len > 0) {
         get_uart_data(dev_uart, data, buffered_data_len);
-        printf("From UART >> ");
-        log_text(data);
+        printf("From UART << ");
+        log_text(data, buffered_data_len);
         printf("\n");
     } else {
         // printf("GPS_UART_2 >> ");
@@ -59,8 +60,8 @@ void log_uart_data(int dev_uart) {
     }
 }
 
-void log_text(char* str_data) {
-    for (int i=0; i < strlen(str_data); i++) {
+void log_text(char* str_data, int len) {
+    for (int i=0; i < len; i++) {
         if (str_data[i] == '\r') {
             printf("\\r");
         } else if (str_data[i] == '\n') {
@@ -74,8 +75,27 @@ void log_text(char* str_data) {
 void gps_log_task(void *arg) {
     init_uart(GPS_UART, GPS_BAUD, GPS_TX, GPS_RX);
 
-    char* test_command = "$JASC,GPGGA,1,PORTB\r\n";
-    send_uart_data(GPS_UART, test_command);
+    char* cmd = "";
+
+    // vTaskDelay(pdMS_TO_TICKS(1000));
+    // char* cmd_uart_b_enable = "$JASC,GPGGA,1,PORTB\r\n";
+    // send_uart_data(GPS_UART, cmd_uart_b_enable);
+
+    vTaskDelay(pdMS_TO_TICKS(4000));
+    cmd = "$JETHERNET,MODE,STATIC,192.168.5.88,255.255.255.0.\r\n";
+    send_uart_data(GPS_UART, cmd);
+
+    vTaskDelay(pdMS_TO_TICKS(4000));
+    cmd = "$>JETHERNET,WEBUI,ON\r\n";
+    send_uart_data(GPS_UART, cmd);
+
+    vTaskDelay(pdMS_TO_TICKS(4000));
+    cmd = "$>JETHERNET\r\n";
+    send_uart_data(GPS_UART, cmd);
+
+    vTaskDelay(pdMS_TO_TICKS(4000));
+    cmd = "$>JETHERNET\r\n";
+    send_uart_data(GPS_UART, cmd);
 
     while (1) {
         log_uart_data(GPS_UART);

@@ -2,13 +2,14 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "esp_log.h"
 #include "Arduino.h"
 
 #include "storage.c"
 #include "router.c"
 #include "led.c"
 #include "uart.c"
+#include "webserver.c"
+
 
 static const char *TAG_MAIN = "Tower PANDAHAT";
 
@@ -20,6 +21,7 @@ void app_main(void)
     setup_router();
     setup_led();
     setup_uart();
+    setup_webserver();
 
     initArduino();
     pinMode(9, OUTPUT);
